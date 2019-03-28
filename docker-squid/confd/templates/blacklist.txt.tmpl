@@ -1,0 +1,7 @@
+{{ with $blacklist := (getv "/squid/blacklist" "%") -}}
+{{ if and (ne $blacklist "%") (ne $blacklist "") -}}
+{{- range $entry := split $blacklist "," -}}
+{{$entry}}
+{{ end -}}
+{{- end -}}
+{{- end -}}

@@ -1,0 +1,7 @@
+[template]
+ src   = "whitelist.txt.tmpl"
+ dest  = "/etc/squid/whitelist.txt"
+ keys  = [
+  "/aws/regions",
+  "/squid/whitelist"
+ ]
