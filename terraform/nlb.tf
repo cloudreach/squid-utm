@@ -3,11 +3,13 @@
 # }
 
 resource "aws_lb" "main" {
-  name                             = "${var.environment}-${var.app_name}"
-  load_balancer_type               = "network"
+  name               = "${var.environment}-${var.app_name}"
+  load_balancer_type = "network"
+
   # launch lbs in public or private subnets based on "internal" variable
   internal = "${var.internal}"
   subnets  = ["${var.lb_subnets}"]
+
   tags = "${merge(
         var.extra_tags,
         map("Name", "${var.environment}-${var.app_name}-nlb"),
@@ -26,7 +28,6 @@ resource "aws_lb_listener" "app_port" {
   }
 }
 
-
 resource "aws_lb_target_group" "main" {
   name                 = "${var.app_name}-${var.environment}"
   port                 = "${var.app_port}"
@@ -42,10 +43,9 @@ resource "aws_lb_target_group" "main" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
   }
+
   tags = "${merge(
         var.extra_tags,
         map("Name", "${var.environment}-${var.app_name}-tg"),
         )}"
 }
-
-
