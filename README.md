@@ -30,21 +30,6 @@ The solution is based on the following principles:
 - Highly available solution
 - Flexible cost based on usage
 
-## Why I used these AWS services
-
-[AWS Fargate](https://aws.amazon.com/fargate/) is a compute engine for Amazon ECS that allows you to run containers without having to manage servers or clusters. With AWS Fargate, you no longer have to provision, configure, and scale clusters of virtual machines to run containers. This removes the need to choose server types, decide when to scale your clusters or optimize cluster packing. [AWS Application Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/what-is-application-auto-scaling.html) enables you to configure automatic scaling for AWS Fargate in a matter of minutes.
-
-[AWS Network Load Balancer](https://aws.amazon.com/blogs/aws/new-network-load-balancer-effortless-scaling-to-millions-of-requests-per-second/) operates at the connection level (Layer 4), routing connections to targets - Amazon EC2 instances, microservices, and containers – within Amazon Virtual Private Cloud (Amazon VPC) based on IP protocol data. Ideal for load balancing of TCP traffic, Network Load Balancer is capable of handling millions of requests per second while maintaining ultra-low latencies.
-
-[AWS Cloudwatch Logs](https://aws.amazon.com/cloudwatch/features/) service allows you to collect and store logs from your resources, applications, and services in near real-time. Using the [AWS ECS awslogs](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html) drivers makes it possible to publish the output log of Docker without any additional tool.
-
-### Why use AWS Network Load Balancer?
-
-AWS Network Load Balancer offers a very flexible configuration and high-performance connection but it also introduces the ability to configure a &quot;[Service Endpoint](https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html)&quot;.
-
-Using Service Endpoint enabled to publish the Squid UTM Service across multiple accounts and across multiple regions, using [VPC PrivateLink Inter-Region](https://aws.amazon.com/about-aws/whats-new/2018/10/aws-privatelink-now-supports-access-over-inter-region-vpc-peering/), in a secure way controlling the allowed/blocked traffic in a single location.
-
-
 
 # The solution
 
@@ -57,17 +42,12 @@ This solution enabled:
 - ECS provides the high-availability scheduling with the required AWS Fargate scaling based on the CPU load of the service
 - No Patch/Updates will be required anymore to maintain the base OS
 
-# Conclusion
-
-The final solution satisfies all principles enabling the usage of Squid in a highly dynamic environment:
-
-- AWS ECS will handle zero-downtime deployment on every configuration change and also ensuring the high-availability and load scaling process of AWS Fargate.
-- AWS Network Loadbalancer will guarantee high throughput and ultra-low latency cross region and cross-account connectivity.
-
-These services combine together will transform and modernised the URL filtering with Squid to a cloud-friendly design.
-
 
 # Terraform parameters
+
+## Terraform Version
+¯
+This module support Terraform `>= 0.12.0` in this repo `example.tf` show how to use it
 
 ## Input for AWS Infrastructure
 
@@ -112,21 +92,24 @@ These services combine together will transform and modernised the URL filtering 
 
 # Just do IT
 
-To use the terraform code  a quick `Makefile` can help the deployment
+To use the terraform code a quick bash wrapper`./terraform.sh` can help the deployment
 
 ```bash
-Terraform-makefile
-
-apply                          Have terraform do the things. This will cost money.
-del                            alias of destroy
-delete                         alias of destroy
-destroy                        Destroy the things
-fmt                            terraform format
-init                           Init terraform module
-lint                           Rewrites config to canonical format
-plan-destroy                   Creates a destruction plan.
-plan                           Show what terraform thinks it will do
-up                             alias of apply
+Usage:
+   ./terraform.sh [action]
+Description:
+   Deploy your Lambda function payloads to AWS.
+Examples:
+   ./deploy.sh plan
+   ./deploy.sh apply
+Actions:
+   init     - init configuration
+   validate - validate terraform file
+   plan     - Test terraform configuration
+   apply    - Apply terraform configuration
+   destroy  - Destroy all resources created in terraform
+Options:
+   --help: Display this help message
 ```
 
 To create the UTM solution with terraform just run:
@@ -134,7 +117,7 @@ To create the UTM solution with terraform just run:
 ```bash
 $ git clone https://github.com/cloudreach/squid-utm.git
 $ cd squid-utm/
-$ make apply
+$ ./terraform.sh apply
 Initializing modules...
 - module.vpc-utm
 - module.utm
@@ -152,7 +135,7 @@ test_curl = curl https://www.cloudreach.com --head --proxy dev-utm-squid-cd9173b
 To delete the UTM solution with terraform just run:
 
 ```bash
-$ make destroy
+$ ./terraform.sh destroy
 
 ....
 
