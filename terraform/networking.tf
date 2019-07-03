@@ -1,11 +1,11 @@
 resource "aws_security_group" "fargate" {
-  name        = "${var.environment}-${var.app_name}-sg"
-  description = "${var.environment}-${var.app_name}-sg"
+  name        = format("%s-%s-sg", var.environment, var.app_name)
+  description = format("%s-%s-sg", var.environment, var.app_name)
   vpc_id      = "${var.vpc_id}"
 
   ingress {
-    from_port   = "${var.app_port}"
-    to_port     = "${var.app_port}"
+    from_port   = var.app_port
+    to_port     = var.app_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -18,7 +18,7 @@ resource "aws_security_group" "fargate" {
   }
 
   tags = "${merge(
-        var.extra_tags,
-        map("Name", "${var.environment}-${var.app_name}-sg"),
-        )}"
+    var.extra_tags,
+    map("Name", format("%s-%s-sg", var.environment, var.app_name)),
+  )}"
 }

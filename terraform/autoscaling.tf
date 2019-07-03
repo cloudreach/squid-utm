@@ -29,7 +29,7 @@ resource "aws_appautoscaling_policy" "up" {
 
 # Automatically scale capacity down by one
 resource "aws_appautoscaling_policy" "down" {
-  name               = "${var.environment}_${var.app_name}__scale_down"
+  name               = "${var.environment}_${var.app_name}_scale_down"
   service_namespace  = "ecs"
   resource_id        = "service/${aws_ecs_cluster.main.name}/${aws_ecs_service.service.name}"
   scalable_dimension = "ecs:service:DesiredCount"
@@ -59,7 +59,7 @@ resource "aws_cloudwatch_metric_alarm" "service_cpu_high" {
   statistic           = "Average"
   threshold           = "85"
 
-  dimensions {
+  dimensions = {
     ClusterName = "${aws_ecs_cluster.main.name}"
     ServiceName = "${aws_ecs_service.service.name}"
   }
@@ -78,7 +78,7 @@ resource "aws_cloudwatch_metric_alarm" "service_cpu_low" {
   statistic           = "Average"
   threshold           = "10"
 
-  dimensions {
+  dimensions = {
     ClusterName = "${aws_ecs_cluster.main.name}"
     ServiceName = "${aws_ecs_service.service.name}"
   }
