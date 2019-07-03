@@ -46,7 +46,7 @@ This solution enabled:
 # Terraform parameters
 
 ## Terraform Version
-¯
+
 This module support Terraform `>= 0.12.0` in this repo `example.tf` show how to use it
 
 ## Input for AWS Infrastructure
@@ -98,13 +98,13 @@ To use the terraform code a quick bash wrapper`./terraform.sh` can help the depl
 Usage:
    ./terraform.sh [action]
 Description:
-   Deploy your Lambda function payloads to AWS.
+   Terraform Wrapper Script
 Examples:
-   ./deploy.sh plan
-   ./deploy.sh apply
+   ./terraform.sh plan
+   ./terraform.sh apply
 Actions:
-   init     - init configuration
-   validate - validate terraform file
+   init     - Init configuration
+   validate - Validate terraform file
    plan     - Test terraform configuration
    apply    - Apply terraform configuration
    destroy  - Destroy all resources created in terraform

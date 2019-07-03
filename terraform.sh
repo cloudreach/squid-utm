@@ -6,13 +6,13 @@ IFS=$'\n\t'
 #/ Usage:
 #/    ./terraform.sh [action]
 #/ Description:
-#/    Deploy your Lambda function payloads to AWS.
+#/    Terraform Wrapper Script
 #/ Examples:
-#/    ./deploy.sh plan
-#/    ./deploy.sh apply
+#/    ./terraform.sh plan
+#/    ./terraform.sh apply
 #/ Actions:
-#/    init     - init configuration
-#/    validate - validate terraform file
+#/    init     - Init configuration
+#/    validate - Validate terraform file
 #/    plan     - Test terraform configuration
 #/    apply    - Apply terraform configuration
 #/    destroy  - Destroy all resources created in terraform
