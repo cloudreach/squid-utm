@@ -3,7 +3,7 @@
  dest  = "/etc/squid/squid.conf"
  keys  = [
   "/allowed/cidrs",
-  "/shutdown/lifetime",
-  "/no/whitelist",
+  "/squid/shutdownlifetime",
+  "/squid/blockall",
   "/squid/port"
  ]

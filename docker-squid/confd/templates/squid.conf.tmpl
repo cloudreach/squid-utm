@@ -33,13 +33,11 @@ http_access allow localhost manager
 http_access allow all manager
 http_access deny manager
 
-{{- if ne (getv "/no/whitelist" "false") "true" }}
 #
 # INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
 #
 acl whitelist dstdomain "/etc/squid/whitelist.txt"
 http_access allow whitelist localnet
-{{- end }}
 
 #
 # INSERT YOUR OWN RULE(S) HERE TO BLOCK ACCESS FROM YOUR CLIENTS
@@ -54,9 +52,11 @@ acl status_302 http_status 302
 http_reply_access allow status_301
 http_reply_access allow status_302
 http_reply_access allow status_200
-{{- if ne (getv "/no/whitelist" "false") "true" }}
 
-# And finally deny all other access to this proxy
+{{- if eq (getv "/squid/blockall" "true") "true" }}
+#
+# DENY ALL other access to this proxy
+#
 http_access deny all
 {{- end }}
 
@@ -83,4 +83,4 @@ refresh_pattern -i (/cgi-bin/|\?) 0     0%      0
 refresh_pattern .               0       20%     4320
 # Required to redirect logs to stdout
 access_log stdio:/var/log/squid/access.log
-shutdown_lifetime {{getv "/shutdown/lifetime" "20"}} seconds
+shutdown_lifetime {{getv "/squid/shutdownlifetime" "20"}} seconds

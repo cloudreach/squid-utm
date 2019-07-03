@@ -4,11 +4,7 @@ cnf ?= config.env
 include $(cnf)
 export $(shell sed 's/=.*//' $(cnf))
 
-ifeq (, $(shell git describe --tags --abbrev=0  2>/dev/null ))
-  VERSION:= 0.1
-else
-  VERSION := $(shell git describe --tags --abbrev=0)
-endif
+VERSION:= 1.1
 
 
 # HELP

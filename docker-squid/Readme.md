@@ -104,9 +104,10 @@ The following table defines environment variables control the configuration of c
 |----------------------|----------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------|
 | SQUID_WHITELIST      | No       |                | Comma separated list of whitelisted domains.  Note that this whitelist adds the default whitelist that permits access to AWS services.                    | .cloudreach.com,.google.com |
 | SQUID_BLACKLIST      | No       |                | Comma separated list of blacklisted domains. | .exploit-db.com |
+| SQUID_BLOCKALL        | No       | true | Squid Block all               | `false|true`            |
+| SQUID_SHUTDOWNLIFETIME        | No       | 20 | Squid shutdownlifetime             | 30            |
 | AWS_REGIONS          | No       | eu-west-1      | Comma separate list of regions that the whitelist should perform for access to AWS services.  This only affects AWS services that are regional in nature. | eu-west-1,eu-central-1     |
 | ALLOWED_CIDRS        | No       | RFC1918 ranges | Comma separated list of allowed CIDR ranges permitted to use the Proxy.  This typically should be set to the CIDR block range of your VPC.                | 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16            |
-| NO_WHITELIST        | No       | false | Squid Block all               | `false|true`            |
 
 
 
