@@ -19,7 +19,7 @@ EOF
 
   tags = merge(
     var.extra_tags,
-    map("Name", format("%s-%s-fargate-role", var.environment, var.app_name)),
+    { "Name" = format("%s-%s-fargate-role", var.environment, var.app_name) },
   )
 }
 
@@ -36,12 +36,12 @@ data "aws_iam_policy_document" "app_policy" {
 }
 
 resource "aws_iam_role_policy" "app_policy_pl" {
-  name = "app_policy"
-  role = aws_iam_role.ecs_execution_role.name
+  name   = "app_policy"
+  role   = aws_iam_role.ecs_execution_role.name
   policy = data.aws_iam_policy_document.app_policy.json
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_execution_policy" {
-  role = aws_iam_role.ecs_execution_role.name
+  role       = aws_iam_role.ecs_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }

@@ -27,7 +27,7 @@ variable "fargate_image" {
 
 # Additional tags to apply to all tagged resources.
 variable "extra_tags" {
-  type = "map"
+  type = map(any)
 }
 
 variable "internal" {

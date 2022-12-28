@@ -6,7 +6,7 @@ resource "aws_ecs_cluster" "main" {
 
   tags = merge(
     var.extra_tags,
-    map("Name", "${var.environment}-${var.app_name}"),
+    { "Name" = format("%s-%s-sg", var.environment, var.app_name) },
   )
 }
 
@@ -20,7 +20,7 @@ resource "aws_cloudwatch_log_group" "cwlog" {
 
   tags = merge(
     var.extra_tags,
-    map("Name",  format("%s-%s", var.environment, var.app_name)),
+    { "Name" = format("%s-%s-sg", var.environment, var.app_name) },
   )
 }
 
@@ -79,33 +79,33 @@ resource "aws_ecs_task_definition" "squid" {
 EOF
 
   requires_compatibilities = ["FARGATE"]
-  network_mode = "awsvpc"
-  cpu = "256"
-  memory = "512"
-  execution_role_arn = aws_iam_role.ecs_execution_role.arn
-  task_role_arn = aws_iam_role.ecs_execution_role.arn
+  network_mode             = "awsvpc"
+  cpu                      = "256"
+  memory                   = "512"
+  execution_role_arn       = aws_iam_role.ecs_execution_role.arn
+  task_role_arn            = aws_iam_role.ecs_execution_role.arn
   tags = merge(
     var.extra_tags,
-    map("Name",  format("%s-%s-task", var.environment, var.app_name)),
+    { "Name" = format("%s-%s-sg", var.environment, var.app_name) },
   )
 }
 
 resource "aws_ecs_service" "service" {
-  name = "${var.environment}-${var.app_name}"
-  cluster = aws_ecs_cluster.main.id
+  name            = "${var.environment}-${var.app_name}"
+  cluster         = aws_ecs_cluster.main.id
   task_definition = "${aws_ecs_task_definition.squid.family}:${aws_ecs_task_definition.squid.revision}"
-  launch_type = "FARGATE"
-  desired_count = var.desired_count
+  launch_type     = "FARGATE"
+  desired_count   = var.desired_count
 
   load_balancer {
     target_group_arn = aws_lb_target_group.main.arn
-    container_name = var.app_name
-    container_port = var.app_port
+    container_name   = var.app_name
+    container_port   = var.app_port
   }
 
   network_configuration {
-    subnets = var.fargate_subnets
-    security_groups = [aws_security_group.fargate.id]
+    subnets          = var.fargate_subnets
+    security_groups  = [aws_security_group.fargate.id]
     assign_public_ip = true
   }
 

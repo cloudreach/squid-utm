@@ -11,10 +11,10 @@ resource "aws_lb" "main" {
   subnets  = var.lb_subnets
 
 
-  tags = "${merge(
+  tags = merge(
     var.extra_tags,
-    map("Name", format("%s-%s-nlb", var.environment, var.app_name)),
-  )}"
+    { "Name" = format("%s-%s-fargate-role", var.environment, var.app_name) },
+  )
 }
 
 # adds a tcp listener to the load balancer and allows ingress
@@ -45,8 +45,8 @@ resource "aws_lb_target_group" "main" {
     unhealthy_threshold = 2
   }
 
-  tags = "${merge(
+  tags = merge(
     var.extra_tags,
-    map("Name", format("%s-%s-tg", var.environment, var.app_name)),
-  )}"
+    { "Name" = format("%s-%s-fargate-role", var.environment, var.app_name) },
+  )
 }
