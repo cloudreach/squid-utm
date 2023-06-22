@@ -69,6 +69,11 @@ variable "deregistration_delay" {
   type    = number
 }
 
+variable "log_retention_in_days" {
+  default = 30
+  type    = number
+}
+
 variable "whitelist_aws_region" {
   description = "URL filter for AWS region"
   default     = "eu-west-1,eu-west-2,eu-central-1"
