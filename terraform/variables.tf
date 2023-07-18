@@ -27,7 +27,7 @@ variable "fargate_image" {
 
 # Additional tags to apply to all tagged resources.
 variable "extra_tags" {
-  type = "map"
+  type = map(any)
 }
 
 variable "internal" {
@@ -66,6 +66,11 @@ variable "max_count" {
 # The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused
 variable "deregistration_delay" {
   default = 5
+  type    = number
+}
+
+variable "log_retention_in_days" {
+  default = 30
   type    = number
 }
 
